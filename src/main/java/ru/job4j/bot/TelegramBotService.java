@@ -1,11 +1,12 @@
 package ru.job4j.bot;
 
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Service;
 
 import ru.job4j.content.Content;
+import ru.job4j.infastructur.LifecycleComponent;
 
 @Service
-public class TelegramBotService {
+public class TelegramBotService extends LifecycleComponent {
     private final BotCommandHandler handler;
 
     public TelegramBotService(BotCommandHandler handler) {

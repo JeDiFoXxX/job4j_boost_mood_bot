@@ -1,4 +1,8 @@
 package ru.job4j.service;
 
-public class ReminderService {
+import org.springframework.stereotype.Service;
+import ru.job4j.infastructur.LifecycleComponent;
+
+@Service
+public class ReminderService extends LifecycleComponent {
 }
