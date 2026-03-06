@@ -61,8 +61,9 @@ public class TgRemoteService extends TelegramLongPollingBot {
             var message = update.getMessage().getText();
             if ("/start".equals(message)) {
                 var clientId = update.getMessage().getFrom().getId();
-                var user = new User(clientId, chatId);
-                userRepository.add(user);
+                if (userRepository.findByClientId(clientId) == null) {
+                    userRepository.save(new User(clientId, chatId));
+                }
             }
             send(sendButtons(chatId));
         }

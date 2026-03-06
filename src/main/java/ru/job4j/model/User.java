@@ -1,17 +1,25 @@
 package ru.job4j.model;
 
-import java.util.concurrent.atomic.AtomicLong;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "mb_user")
 public class User {
-    private static final AtomicLong COUNT = new AtomicLong(1);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final Long id;
-    private final long clientId;
-    private final long chatId;
+    @Column(name = "client_id")
+    private long clientId;
+
+    @Column(name = "chat_id")
+    private long chatId;
+
+    public User() { }
 
     public User(long clientId, long chatId) {
-        this.id = COUNT.getAndIncrement();
         this.clientId = clientId;
         this.chatId = chatId;
     }
@@ -29,20 +37,20 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        User user = (User) o;
+        User user = (User) object;
         return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 
     @Override
