@@ -1,4 +1,7 @@
 package ru.job4j.repository;
 
-public class MoodLogRepository {
-}
+import org.springframework.stereotype.Repository;
+import ru.job4j.model.MoodLog;
+
+@Repository
+public interface MoodLogRepository extends MainRepository<MoodLog, Long> { }
