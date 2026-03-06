@@ -12,6 +12,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.*;
 
+import ru.job4j.model.User;
+import ru.job4j.repository.UserRepository;
+
 @Service
 public class TgRemoteService extends TelegramLongPollingBot {
     private static final Map<String, String> MOOD_RESP = new HashMap<>();
@@ -26,11 +29,14 @@ public class TgRemoteService extends TelegramLongPollingBot {
 
     private final String botName;
     private final String botToken;
+    private final UserRepository userRepository;
 
     public TgRemoteService(@Value("${telegram.bot.name}") String botName,
-                           @Value("${telegram.bot.token}") String botToken) {
+                           @Value("${telegram.bot.token}") String botToken,
+                           UserRepository userRepository) {
         this.botName = botName;
         this.botToken = botToken;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -51,7 +57,13 @@ public class TgRemoteService extends TelegramLongPollingBot {
             send(new SendMessage(String.valueOf(chatId), MOOD_RESP.get(data)));
         }
         if (update.hasMessage() && update.getMessage().hasText()) {
-            long chatId = update.getMessage().getChatId();
+            var chatId = update.getMessage().getChatId();
+            var message = update.getMessage().getText();
+            if ("/start".equals(message)) {
+                var clientId = update.getMessage().getFrom().getId();
+                var user = new User(clientId, chatId);
+                userRepository.add(user);
+            }
             send(sendButtons(chatId));
         }
     }
@@ -83,7 +95,7 @@ public class TgRemoteService extends TelegramLongPollingBot {
         return inline;
     }
 
-    private void send(SendMessage message) {
+    protected void send(SendMessage message) {
         try {
             execute(message);
         } catch (TelegramApiException e) {

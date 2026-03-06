@@ -1,6 +1,7 @@
 package ru.job4j;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.job4j.services.TgRemoteService;
 
+@EnableScheduling
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
