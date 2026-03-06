@@ -1,4 +1,4 @@
-package ru.job4j.engine;
+package ru.job4j.content;
 
 import ru.job4j.model.Content;
 
