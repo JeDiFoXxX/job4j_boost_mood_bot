@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Random;
 
+import ru.job4j.content.ContentProvider;
 import ru.job4j.infastructur.LifecycleComponent;
 import ru.job4j.model.Content;
 

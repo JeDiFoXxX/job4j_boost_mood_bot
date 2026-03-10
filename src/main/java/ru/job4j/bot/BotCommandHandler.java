@@ -48,7 +48,9 @@ public class BotCommandHandler extends LifecycleComponent {
 
     private Optional<Content> handleStartCommand(long chatId, Long clientId) {
         var user = new User(chatId, clientId);
-        userRepository.save(user);
+        if (userRepository.findByClientId(clientId).isEmpty()) {
+            userRepository.save(user);
+        }
         var content = new Content(user.getChatId());
         content.setText("Как настроение?");
         content.setMarkup(tgUI.buildButtons());
