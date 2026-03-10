@@ -11,17 +11,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id", unique = true)
-    private long clientId;
-
     @Column(name = "chat_id")
     private long chatId;
 
-    public User() { }
+    @Column(name = "client_id", unique = true)
+    private long clientId;
 
-    public User(long clientId, long chatId) {
-        this.clientId = clientId;
+    public User() {
+    }
+
+    public User(long chatId, long clientId) {
         this.chatId = chatId;
+        this.clientId = clientId;
     }
 
     public Long getId() {

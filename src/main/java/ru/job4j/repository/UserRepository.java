@@ -4,7 +4,9 @@ import org.springframework.stereotype.Repository;
 
 import ru.job4j.model.User;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends MainRepository<User, Long> {
-    User findByClientId(Long clientId);
+    Optional<User> findByClientId(Long clientId);
 }
