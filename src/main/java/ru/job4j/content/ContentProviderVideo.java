@@ -11,7 +11,7 @@ public class ContentProviderVideo implements ContentProvider {
     @Override
     public Content byMood(Long chatId, Long moodId) {
         var content = new Content(chatId);
-        content.setVideo(new InputFile(new File("./video/video.mp4")));
+        content.setVideo(new InputFile(new File("./data/video/video.mp4")));
         return content;
     }
 }
