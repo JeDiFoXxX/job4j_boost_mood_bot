@@ -4,8 +4,10 @@ import org.springframework.test.fake.CrudRepositoryFake;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ru.job4j.model.Mood;
+import ru.job4j.model.User;
 import ru.job4j.repository.MoodRepository;
 
 public class MoodFakeRepository
