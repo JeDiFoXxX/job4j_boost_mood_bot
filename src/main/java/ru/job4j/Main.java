@@ -17,10 +17,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import ru.job4j.infastructur.TelegramBotHandler;
 import ru.job4j.model.Award;
 import ru.job4j.model.MoodContent;
 import ru.job4j.repository.*;
-import ru.job4j.services.TelegramBotService;
 
 @EnableScheduling
 @SpringBootApplication
@@ -32,11 +32,9 @@ public class Main {
     @Bean
     public CommandLineRunner initTelegramApi(ApplicationContext ctx) {
         return args -> {
-            var bot = ctx.getBean(TelegramBotService.class);
-            var botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            var bot = ctx.getBean(TelegramBotHandler.class);
             try {
-                botsApi.registerBot(bot);
-                System.out.println("Бот успешно зарегистрирован");
+                bot.init(new TelegramBotsApi(DefaultBotSession.class));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

@@ -1,9 +1,11 @@
 package ru.job4j.services;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -11,12 +13,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import ru.job4j.bot.BotCommandHandler;
-import ru.job4j.content.SentContent;
 import ru.job4j.exception.SentContentException;
+import ru.job4j.infastructur.OnRealCondition;
+import ru.job4j.infastructur.TelegramBotHandler;
 import ru.job4j.model.Content;
 
 @Service
-public class TelegramBotService extends TelegramLongPollingBot implements SentContent {
+@Conditional(OnRealCondition.class)
+public class TelegramBotService extends TelegramLongPollingBot implements TelegramBotHandler {
     private final BotCommandHandler handler;
     private final String botName;
 
@@ -82,5 +86,11 @@ public class TelegramBotService extends TelegramLongPollingBot implements SentCo
         } catch (TelegramApiException e) {
             throw new SentContentException("Ошибка при отправлении", e);
         }
+    }
+
+    @Override
+    public void init(TelegramBotsApi botsApi) throws TelegramApiException {
+        botsApi.registerBot(this);
+        System.out.printf("Бот %s успешно зарегистрирован%n", getBotUsername());
     }
 }
